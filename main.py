@@ -104,12 +104,12 @@ def get_statistics_table(salaries_statistics, title):
          'Вакансий обработано']
     ]
     for language, stats in salaries_statistics.items():
-        table_data.append(
-            [language, 
-             stats['average_salary'],
-             stats['vacancies_found'],
-             stats['vacancies_processed']]
-        )
+        table_data.append([
+            language,
+            stats['average_salary'],
+            stats['vacancies_found'],
+            stats['vacancies_processed']
+            ])
     table = AsciiTable(table_data)
     table.title = title
     return table.table
@@ -137,16 +137,22 @@ if __name__ == '__main__':
         hh_vacancies, hh_vacancies_count = get_response_hh(keyword)
         hh_salaries = get_salarys_hh(hh_vacancies)
         hh_vacancies_processed = len(hh_salaries)
-        hh_average_salary = int(sum(hh_salaries) / hh_vacancies_processed) if hh_vacancies_processed else 0
+        hh_average_salary = int(
+            sum(hh_salaries) / hh_vacancies_processed
+        ) if hh_vacancies_processed else 0
         hh_salaries_statistics[language] = {
             "vacancies_found": hh_vacancies_count,
             "vacancies_processed": hh_vacancies_processed,
             "average_salary": hh_average_salary
             }
-        sj_vacancies, sj_vacancies_count = get_response_sj(keyword, sj_api_token)
+        sj_vacancies, sj_vacancies_count = (
+            get_response_sj(keyword, sj_api_token)
+        )
         sj_salaries = get_salaries_sj(sj_vacancies)
         sj_vacancies_processed = len(sj_salaries)
-        sj_average_salary = int(sum(sj_salaries) / sj_vacancies_processed) if sj_vacancies_processed else 0
+        sj_average_salary = int(
+            sum(sj_salaries) / sj_vacancies_processed
+        ) if sj_vacancies_processed else 0
         sj_salaries_statistics[language] = {
             "vacancies_found": sj_vacancies_count,
             "vacancies_processed": sj_vacancies_processed,
@@ -154,4 +160,3 @@ if __name__ == '__main__':
             }
     print(get_statistics_table(hh_salaries_statistics, 'HeadHunter Moscow'))
     print(get_statistics_table(sj_salaries_statistics, 'SuperJob Moscow'))
-
