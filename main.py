@@ -132,6 +132,7 @@ if __name__ == '__main__':
     sj_salaries_statistics = {}
     for language in languages:
         keyword = f'Программиcт {language}'
+
         hh_vacancies = get_hh_vacancies(keyword)
         hh_vacancies_count = len(hh_vacancies)
         hh_salaries = get_salaries_hh(hh_vacancies)
@@ -144,6 +145,7 @@ if __name__ == '__main__':
             "vacancies_processed": hh_vacancies_processed,
             "average_salary": hh_average_salary
             }
+
         sj_vacancies = get_sj_vacancies(keyword, sj_api_token)
         sj_vacancies_count = len(sj_vacancies)
         sj_salaries = get_salaries_sj(sj_vacancies)
