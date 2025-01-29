@@ -31,7 +31,7 @@ def get_response_hh(keyword):
     return vacancies, vacancies_count
 
 
-def get_salarys_hh(vacancies):
+def get_salaries_hh(vacancies):
     salaries = []
     for vacancy in vacancies:
         if vacancy['salary'] and vacancy['salary']['currency'] == 'RUR':
@@ -135,7 +135,6 @@ if __name__ == '__main__':
     for language in languages:
         keyword = f'Программиcт {language}'
         hh_vacancies, hh_vacancies_count = get_response_hh(keyword)
-        hh_salaries = get_salarys_hh(hh_vacancies)
         hh_vacancies_processed = len(hh_salaries)
         hh_average_salary = int(
             sum(hh_salaries) / hh_vacancies_processed
