@@ -18,7 +18,7 @@ def get_hh_vacancies(keyword):
         'period': last_month_period,
         'per_page': 100,
         'page': page_number
-        }
+    }
     while True:
         response = requests.get(url, params=params)
         response.raise_for_status()
@@ -107,7 +107,7 @@ def get_statistics_table(salaries_statistics, title):
             stats['average_salary'],
             stats['vacancies_found'],
             stats['vacancies_processed']
-            ])
+        ])
     table = AsciiTable(table_data)
     table.title = title
     return table.table
@@ -144,7 +144,7 @@ if __name__ == '__main__':
             "vacancies_found": hh_vacancies_count,
             "vacancies_processed": hh_vacancies_processed,
             "average_salary": hh_average_salary
-            }
+        }
 
         sj_vacancies = get_sj_vacancies(keyword, sj_api_token)
         sj_vacancies_count = len(sj_vacancies)
@@ -157,6 +157,6 @@ if __name__ == '__main__':
             "vacancies_found": sj_vacancies_count,
             "vacancies_processed": sj_vacancies_processed,
             "average_salary": sj_average_salary
-            }
+        }
     print(get_statistics_table(hh_salaries_statistics, 'HeadHunter Moscow'))
     print(get_statistics_table(sj_salaries_statistics, 'SuperJob Moscow'))
