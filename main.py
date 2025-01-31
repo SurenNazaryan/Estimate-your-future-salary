@@ -1,6 +1,4 @@
 import requests
-import pprint
-import math
 from terminaltables import AsciiTable
 from dotenv import load_dotenv
 import os
