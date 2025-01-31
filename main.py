@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 
 
-def get_hh_vacancies(keyword):
+def get_hh_vacancies_and_count(keyword):
     url = 'https://api.hh.ru/vacancies'
     moscow_area = 1
     last_month_period = 30
@@ -22,10 +22,12 @@ def get_hh_vacancies(keyword):
         response.raise_for_status()
         response = response.json()
         vacancies.extend(response['items'])
+        if params['page'] == 0:
+            vacancies_count = response['found']
         params['page'] += 1
         if params['page'] == response['pages']:
             break
-    return vacancies
+    return vacancies, vacancies_count
 
 
 def get_salaries_hh(vacancies):
@@ -40,7 +42,7 @@ def get_salaries_hh(vacancies):
     return salaries
 
 
-def get_sj_vacancies(keyword, sj_api_token):
+def get_sj_vacancies_and_count(keyword, sj_api_token):
     url = 'https://api.superjob.ru/2.0/vacancies'
     headers = {
         'X-Api-App-Id': sj_api_token
@@ -62,10 +64,12 @@ def get_sj_vacancies(keyword, sj_api_token):
         response.raise_for_status()
         response = response.json()
         vacancies.extend(response['objects'])
+        if params['page'] == 0:
+            vacancies_count = response['total']
         params['page'] += 1
         if not response['more']:
             break
-    return vacancies
+    return vacancies, vacancies_count
 
 
 def get_salaries_sj(vacancies):
@@ -131,8 +135,7 @@ if __name__ == '__main__':
     for language in languages:
         keyword = f'Программиcт {language}'
 
-        hh_vacancies = get_hh_vacancies(keyword)
-        hh_vacancies_count = len(hh_vacancies)
+        hh_vacancies, hh_vacancies_count = get_hh_vacancies_and_count(keyword)
         hh_salaries = get_salaries_hh(hh_vacancies)
         hh_vacancies_processed = len(hh_salaries)
         hh_average_salary = int(
@@ -144,8 +147,7 @@ if __name__ == '__main__':
             "average_salary": hh_average_salary
         }
 
-        sj_vacancies = get_sj_vacancies(keyword, sj_api_token)
-        sj_vacancies_count = len(sj_vacancies)
+        sj_vacancies, sj_vacancies_count = get_sj_vacancies_and_count(keyword, sj_api_token)
         sj_salaries = get_salaries_sj(sj_vacancies)
         sj_vacancies_processed = len(sj_salaries)
         sj_average_salary = int(
